@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PEGStudy", "PEGStudy\PEGStudy.fsproj", "{DC61B7E3-3A7B-4E88-9B54-7F860B9FAD3B}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PEGStudy.Tests", "PEGStudy.Tests\PEGStudy.Tests.fsproj", "{347CCC7D-D0C3-41C4-9236-AA22846623DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DC61B7E3-3A7B-4E88-9B54-7F860B9FAD3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC61B7E3-3A7B-4E88-9B54-7F860B9FAD3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC61B7E3-3A7B-4E88-9B54-7F860B9FAD3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC61B7E3-3A7B-4E88-9B54-7F860B9FAD3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{347CCC7D-D0C3-41C4-9236-AA22846623DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{347CCC7D-D0C3-41C4-9236-AA22846623DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{347CCC7D-D0C3-41C4-9236-AA22846623DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{347CCC7D-D0C3-41C4-9236-AA22846623DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
