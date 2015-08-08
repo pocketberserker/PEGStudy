@@ -188,6 +188,7 @@ PEGと構文解析に関するアレコレの勉強会 Vol.1
 
 ### 文字列リテラル(PEG)
 
+    // val pstring: string -> Parser<string>
     let pstring str = fun s ->
       match State.extract s with
       // 入力の先頭に一致したら成功
@@ -199,9 +200,10 @@ PEGと構文解析に関するアレコレの勉強会 Vol.1
 
 ### ワイルドカード(PEG)
 
-    // 位置文字あればよい
+    // val any: Parser<char>
     let any = fun s ->
       match State.extract s with
+      // 1文字あればよい
       | Some target when not <| String.IsNullOrEmpty(target) -> Success(target.Chars(0), s.Pos + 1)
       | _ -> Failure "any: もう入力がないよ"
 
@@ -209,6 +211,7 @@ PEGと構文解析に関するアレコレの勉強会 Vol.1
 
 ### 連接(PEG)
 
+    // val (<.>) : Parser<'T> -> Parser<'U> -> Parser<'T * 'U>
     let (<.>) a b = fun s ->
       a s
       |> Result.bind (fun r1 rpos1 ->
@@ -226,6 +229,7 @@ PEGと構文解析に関するアレコレの勉強会 Vol.1
 
 a に失敗したら b で解析を試みる
 
+    // val (</>): Parser<'T> -> Parser<'T> -> Parser<'T>
     let (</>) a b = fun s ->
       match a s with
       | Success _ as p -> p
@@ -235,6 +239,7 @@ a に失敗したら b で解析を試みる
 
 ### 繰り返し(PEG)
 
+    // val many: Parser<'T> -> Parser<'T list>
     let many p =
       let rec inner acc s =
         match p s with
@@ -247,8 +252,19 @@ a に失敗したら b で解析を試みる
 
 ***
 
+### 0回または1回(PEG)
+
+    // val opt: Parser<'T> -> Parser<'T option>
+    let opt p = fun s ->
+      match p s with
+      | Success(v, p) -> Success(Some v, p)
+      | Failure _ -> Success(None, s.Pos)
+
+***
+
 ### 否定先読み(PEG)
 
+    // val bang: Parser<'T> -> Parser<unit>
     let bang p = fun s ->
       match p s with
       | Success _ -> Failure "bang"
@@ -258,6 +274,7 @@ a に失敗したら b で解析を試みる
 
 ### ok関数(Monad, return の代わり)
 
+    // val ok: 'T -> Parser<'T>
     let ok value = fun s -> Success(value, s.Pos)
 
 パーザ内で条件分岐させた後にパーザを返したりするときに便利
@@ -266,6 +283,7 @@ a に失敗したら b で解析を試みる
 
 ### bind関数(Monad)
 
+    // val bind: ('T -> Parser<'U>) -> Parser<'T> -> Parser<'U>
     let bind f p = fun s ->
       match p s with
       | Success(value, pos) -> s |> State.update pos |> f value
@@ -275,6 +293,7 @@ a に失敗したら b で解析を試みる
 
 ### map関数(Functor)
 
+    // val map: ('T -> 'U) -> Parser<'T> -> Parser<'U>
     let map f (p: Parser<_>) = fun s ->
       match p s with
       | Success(value, pos) -> Success(f value, pos)
