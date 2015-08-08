@@ -209,7 +209,7 @@ PEGと構文解析に関するアレコレの勉強会 Vol.1
 
 ### 連接(PEG)
 
-    let andThen a b = fun s ->
+    let (<.>) a b = fun s ->
       a s
       |> Result.bind (fun r1 rpos1 ->
         // 一つ目の解析に成功したらpositionを更新し

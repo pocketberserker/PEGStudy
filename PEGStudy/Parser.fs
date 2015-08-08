@@ -62,7 +62,7 @@ module Parser =
 
   // PEG
 
-  let andThen a b = fun s ->
+  let (<.>) a b = fun s ->
     a s
     |> Result.bind (fun r1 rpos1 ->
       State.update rpos1 s
@@ -81,7 +81,7 @@ module Parser =
       | Failure _ -> Success(List.rev acc, s.Pos)
     fun s -> inner [] s
 
-  let many1 p = andThen p (many p) |> map (fun (a, b) -> a :: b)
+  let many1 p = p <.> (many p) |> map (fun (a, b) -> a :: b)
 
   let bang p = fun s ->
     match p s with
@@ -90,15 +90,15 @@ module Parser =
 
   let amp p = bang (bang p)
 
-  let orElse (Lazy (b: Parser<_>)) a = fun s ->
+  let (</>) a b = fun (s: State) ->
     match a s with
     | Success _ as p -> p
     | _ -> b s
 
-  let choice xs = List.fold (fun a b -> orElse (lazy a) b) (error "パーサーがひとつも指定されたなかったよ") xs
+  let choice xs = List.fold (</>) (error "パーサーがひとつも指定されたなかったよ") xs
 
-  let sepBy1 p s = andThen p (many (bind (fun _ -> p) s)) |> map (fun (a, b) -> a :: b)
-  let sepBy p s = orElse (lazy ok []) (sepBy1 p s)
+  let sepBy1 p s = p <.> (many (bind (fun _ -> p) s)) |> map (fun (a, b) -> a :: b)
+  let sepBy p s = sepBy1 p s </> ok []
 
   // char
 
