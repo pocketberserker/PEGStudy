@@ -10,7 +10,7 @@ PowerShellで以下を実行
 .\RunTests.ps1
 ```
 
-## 解説
+## スライド
 
-TODO: スライドのリンクはる
+http://pocketberserker.github.io/PEGStudy/#/
 

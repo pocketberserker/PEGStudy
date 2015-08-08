@@ -10,6 +10,8 @@
 
 PEGと構文解析に関するアレコレの勉強会 Vol.1
 
+***
+
 ### 自己紹介
 
 ![icon](https://camo.githubusercontent.com/5dbd18d5fc15054677aaab64d647c4a076483af4/68747470733a2f2f646c2e64726f70626f7875736572636f6e74656e742e636f6d2f752f35373437383735382f7062736b2e6a7067)
@@ -53,7 +55,7 @@ PEGと構文解析に関するアレコレの勉強会 Vol.1
 * [FsAttoparsec](https://github.com/pocketberserker/FsAttoparsec) 作ってみたり
 * [SmlSharpContrib](https://github.com/bleis-tift/SmlSharpContrib) にそれっぽいもの作ってみたり
 * [atto](https://github.com/tpolecat/atto) に手を入れたり
-** 仕事で Boost.Spirit 使ってみたり
+* 仕事で Boost.Spirit 使ってみたり
 
 ***
 
@@ -72,7 +74,7 @@ PEGと構文解析に関するアレコレの勉強会 Vol.1
 
 [FP in Scala](http://book.impress.co.jp/books/1114101091) の第9章
 
-![tweet](./fp-in-scala.png)
+![tweet](./images/fp-in-scala.png)
 
 ***
 

@@ -189,3 +189,4 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 .DS_Store
+FsReveal/
