@@ -361,8 +361,10 @@
 <span class="l">4: </span>
 <span class="l">5: </span>
 <span class="l">6: </span>
+<span class="l">7: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">pstring</span> <span class="i">str</span> <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// val pstring: string -&gt; Parser&lt;string&gt;</span>
+<span class="k">let</span> <span class="i">pstring</span> <span class="i">str</span> <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span>
   <span class="k">match</span> <span class="i">State</span><span class="o">.</span><span class="i">extract</span> <span class="i">s</span> <span class="k">with</span>
   <span class="c">// 入力の先頭に一致したら成功</span>
   | <span onmouseout="hideTip(event, 'fs6', 12)" onmouseover="showTip(event, 'fs6', 12)" class="i">Some</span> <span class="i">target</span> <span class="k">when</span> <span class="i">target</span><span class="o">.</span><span class="i">StartsWith</span>(<span class="i">str</span>) <span class="k">-&gt;</span> <span class="i">Success</span>(<span class="i">str</span>, <span class="i">s</span><span class="o">.</span><span class="i">Pos</span> <span class="o">+</span> <span onmouseout="hideTip(event, 'fs7', 13)" onmouseover="showTip(event, 'fs7', 13)" class="i">String</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs8', 14)" onmouseover="showTip(event, 'fs8', 14)" class="i">length</span> <span class="i">str</span>)
@@ -383,10 +385,12 @@
 <span class="l">3: </span>
 <span class="l">4: </span>
 <span class="l">5: </span>
+<span class="l">6: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// 位置文字あればよい</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// val any: Parser&lt;char&gt;</span>
 <span class="k">let</span> <span class="i">any</span> <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span>
   <span class="k">match</span> <span class="i">State</span><span class="o">.</span><span class="i">extract</span> <span class="i">s</span> <span class="k">with</span>
+  <span class="c">// 1文字あればよい</span>
   | <span onmouseout="hideTip(event, 'fs6', 20)" onmouseover="showTip(event, 'fs6', 20)" class="i">Some</span> <span class="i">target</span> <span class="k">when</span> <span onmouseout="hideTip(event, 'fs11', 21)" onmouseover="showTip(event, 'fs11', 21)" class="i">not</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs7', 22)" onmouseover="showTip(event, 'fs7', 22)" class="i">String</span><span class="o">.</span><span class="i">IsNullOrEmpty</span>(<span class="i">target</span>) <span class="k">-&gt;</span> <span class="i">Success</span>(<span class="i">target</span><span class="o">.</span><span class="i">Chars</span>(<span class="n">0</span>), <span class="i">s</span><span class="o">.</span><span class="i">Pos</span> <span class="o">+</span> <span class="n">1</span>)
   | _ <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs5', 23)" onmouseover="showTip(event, 'fs5', 23)" class="i">Failure</span> <span class="s">&quot;any: もう入力がないよ&quot;</span>
 </code></pre></td>
@@ -407,8 +411,10 @@
 <span class="l">6: </span>
 <span class="l">7: </span>
 <span class="l">8: </span>
+<span class="l">9: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">andThen</span> <span class="i">a</span> <span class="i">b</span> <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// val (&lt;.&gt;) : Parser&lt;&#39;T&gt; -&gt; Parser&lt;&#39;U&gt; -&gt; Parser&lt;&#39;T * &#39;U&gt;</span>
+<span class="k">let</span> (<span class="o">&lt;.&gt;</span>) <span class="i">a</span> <span class="i">b</span> <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span>
   <span class="i">a</span> <span class="i">s</span>
   <span class="o">|&gt;</span> <span class="i">Result</span><span class="o">.</span><span class="i">bind</span> (<span class="k">fun</span> <span class="i">r1</span> <span class="i">rpos1</span> <span class="k">-&gt;</span>
     <span class="c">// 一つ目の解析に成功したらpositionを更新し</span>
@@ -434,8 +440,10 @@
 <span class="l">2: </span>
 <span class="l">3: </span>
 <span class="l">4: </span>
+<span class="l">5: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> (<span class="o">&lt;/&gt;</span>) <span class="i">a</span> <span class="i">b</span> <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// val (&lt;/&gt;): Parser&lt;&#39;T&gt; -&gt; Parser&lt;&#39;T&gt; -&gt; Parser&lt;&#39;T&gt;</span>
+<span class="k">let</span> (<span class="o">&lt;/&gt;</span>) <span class="i">a</span> <span class="i">b</span> <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span>
   <span class="k">match</span> <span class="i">a</span> <span class="i">s</span> <span class="k">with</span>
   | <span class="i">Success</span> _ <span class="k">as</span> <span class="i">p</span> <span class="k">-&gt;</span> <span class="i">p</span>
   | _ <span class="k">-&gt;</span> <span class="i">b</span> <span class="i">s</span>
@@ -455,8 +463,10 @@
 <span class="l">4: </span>
 <span class="l">5: </span>
 <span class="l">6: </span>
+<span class="l">7: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">many</span> <span class="i">p</span> <span class="o">=</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// val many: Parser&lt;&#39;T&gt; -&gt; Parser&lt;&#39;T list&gt;</span>
+<span class="k">let</span> <span class="i">many</span> <span class="i">p</span> <span class="o">=</span>
   <span class="k">let</span> <span class="k">rec</span> <span class="i">inner</span> <span class="i">acc</span> <span class="i">s</span> <span class="o">=</span>
     <span class="k">match</span> <span class="i">p</span> <span class="i">s</span> <span class="k">with</span>
     | <span class="i">Success</span>(<span class="i">v</span>, <span class="i">rpos1</span>) <span class="k">-&gt;</span> <span class="i">inner</span> (<span class="i">v</span> <span class="o">::</span> <span class="i">acc</span>) (<span class="i">State</span><span class="o">.</span><span class="i">update</span> <span class="i">rpos1</span> <span class="i">s</span>)
@@ -475,17 +485,40 @@
 
 <section >
 
+<h3>0回または1回(PEG)</h3>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// val opt: Parser&lt;&#39;T&gt; -&gt; Parser&lt;&#39;T option&gt;</span>
+<span class="k">let</span> <span class="i">opt</span> <span class="i">p</span> <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span>
+  <span class="k">match</span> <span class="i">p</span> <span class="i">s</span> <span class="k">with</span>
+  | <span class="i">Success</span>(<span class="i">v</span>, <span class="i">p</span>) <span class="k">-&gt;</span> <span class="i">Success</span>(<span onmouseout="hideTip(event, 'fs6', 27)" onmouseover="showTip(event, 'fs6', 27)" class="i">Some</span> <span class="i">v</span>, <span class="i">p</span>)
+  | <span onmouseout="hideTip(event, 'fs5', 28)" onmouseover="showTip(event, 'fs5', 28)" class="i">Failure</span> _ <span class="k">-&gt;</span> <span class="i">Success</span>(<span onmouseout="hideTip(event, 'fs10', 29)" onmouseover="showTip(event, 'fs10', 29)" class="i">None</span>, <span class="i">s</span><span class="o">.</span><span class="i">Pos</span>)
+</code></pre></td>
+</tr>
+</table>
+
+</section>
+
+<section >
+
 <h3>否定先読み(PEG)</h3>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
 <span class="l">4: </span>
+<span class="l">5: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">bang</span> <span class="i">p</span> <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// val bang: Parser&lt;&#39;T&gt; -&gt; Parser&lt;unit&gt;</span>
+<span class="k">let</span> <span class="i">bang</span> <span class="i">p</span> <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span>
   <span class="k">match</span> <span class="i">p</span> <span class="i">s</span> <span class="k">with</span>
-  | <span class="i">Success</span> _ <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs5', 27)" onmouseover="showTip(event, 'fs5', 27)" class="i">Failure</span> <span class="s">&quot;bang&quot;</span>
-  | <span onmouseout="hideTip(event, 'fs5', 28)" onmouseover="showTip(event, 'fs5', 28)" class="i">Failure</span> _ <span class="k">-&gt;</span> <span class="i">Success</span>((), <span class="i">s</span><span class="o">.</span><span class="i">Pos</span>)
+  | <span class="i">Success</span> _ <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs5', 30)" onmouseover="showTip(event, 'fs5', 30)" class="i">Failure</span> <span class="s">&quot;bang&quot;</span>
+  | <span onmouseout="hideTip(event, 'fs5', 31)" onmouseover="showTip(event, 'fs5', 31)" class="i">Failure</span> _ <span class="k">-&gt;</span> <span class="i">Success</span>((), <span class="i">s</span><span class="o">.</span><span class="i">Pos</span>)
 </code></pre></td>
 </tr>
 </table>
@@ -497,8 +530,10 @@
 <h3>ok関数(Monad, return の代わり)</h3>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">ok</span> <span class="i">value</span> <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span> <span class="i">Success</span>(<span class="i">value</span>, <span class="i">s</span><span class="o">.</span><span class="i">Pos</span>)
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// val ok: &#39;T -&gt; Parser&lt;&#39;T&gt;</span>
+<span class="k">let</span> <span class="i">ok</span> <span class="i">value</span> <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span> <span class="i">Success</span>(<span class="i">value</span>, <span class="i">s</span><span class="o">.</span><span class="i">Pos</span>)
 </code></pre></td>
 </tr>
 </table>
@@ -515,11 +550,13 @@
 <span class="l">2: </span>
 <span class="l">3: </span>
 <span class="l">4: </span>
+<span class="l">5: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">bind</span> <span class="i">f</span> <span class="i">p</span> <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// val bind: (&#39;T -&gt; Parser&lt;&#39;U&gt;) -&gt; Parser&lt;&#39;T&gt; -&gt; Parser&lt;&#39;U&gt;</span>
+<span class="k">let</span> <span class="i">bind</span> <span class="i">f</span> <span class="i">p</span> <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span>
   <span class="k">match</span> <span class="i">p</span> <span class="i">s</span> <span class="k">with</span>
   | <span class="i">Success</span>(<span class="i">value</span>, <span class="i">pos</span>) <span class="k">-&gt;</span> <span class="i">s</span> <span class="o">|&gt;</span> <span class="i">State</span><span class="o">.</span><span class="i">update</span> <span class="i">pos</span> <span class="o">|&gt;</span> <span class="i">f</span> <span class="i">value</span>
-  | <span onmouseout="hideTip(event, 'fs5', 29)" onmouseover="showTip(event, 'fs5', 29)" class="i">Failure</span> <span class="i">r</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs5', 30)" onmouseover="showTip(event, 'fs5', 30)" class="i">Failure</span> <span class="i">r</span>
+  | <span onmouseout="hideTip(event, 'fs5', 32)" onmouseover="showTip(event, 'fs5', 32)" class="i">Failure</span> <span class="i">r</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs5', 33)" onmouseover="showTip(event, 'fs5', 33)" class="i">Failure</span> <span class="i">r</span>
 </code></pre></td>
 </tr>
 </table>
@@ -534,11 +571,13 @@
 <span class="l">2: </span>
 <span class="l">3: </span>
 <span class="l">4: </span>
+<span class="l">5: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">map</span> <span class="i">f</span> (<span class="i">p</span><span class="o">:</span> <span class="i">Parser</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// val map: (&#39;T -&gt; &#39;U) -&gt; Parser&lt;&#39;T&gt; -&gt; Parser&lt;&#39;U&gt;</span>
+<span class="k">let</span> <span class="i">map</span> <span class="i">f</span> (<span class="i">p</span><span class="o">:</span> <span class="i">Parser</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span> <span class="k">fun</span> <span class="i">s</span> <span class="k">-&gt;</span>
   <span class="k">match</span> <span class="i">p</span> <span class="i">s</span> <span class="k">with</span>
   | <span class="i">Success</span>(<span class="i">value</span>, <span class="i">pos</span>) <span class="k">-&gt;</span> <span class="i">Success</span>(<span class="i">f</span> <span class="i">value</span>, <span class="i">pos</span>)
-  | <span onmouseout="hideTip(event, 'fs5', 31)" onmouseover="showTip(event, 'fs5', 31)" class="i">Failure</span> <span class="i">r</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs5', 32)" onmouseover="showTip(event, 'fs5', 32)" class="i">Failure</span> <span class="i">r</span>
+  | <span onmouseout="hideTip(event, 'fs5', 34)" onmouseover="showTip(event, 'fs5', 34)" class="i">Failure</span> <span class="i">r</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs5', 35)" onmouseover="showTip(event, 'fs5', 35)" class="i">Failure</span> <span class="i">r</span>
 </code></pre></td>
 </tr>
 </table>
